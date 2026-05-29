@@ -40,6 +40,25 @@ class MyHashTable<K, V> {
         buckets[index].add(new MyMapNode<>(key, value));
     }
 
+    public void remove(K key) {
+
+        int index = getBucketIndex(key);
+
+        MyMapNode<K, V> removeNode = null;
+
+        for (MyMapNode<K, V> node : buckets[index]) {
+
+            if (node.key.equals(key)) {
+                removeNode = node;
+                break;
+            }
+        }
+
+        if (removeNode != null) {
+            buckets[index].remove(removeNode);
+        }
+    }
+
     public void print() {
         for (LinkedList<MyMapNode<K, V>> bucket : buckets) {
             for (MyMapNode<K, V> node : bucket) {
@@ -49,7 +68,7 @@ class MyHashTable<K, V> {
     }
 }
 
-public class ParagraphFrequency {
+public class RemoveWord {
 
     public static void main(String[] args) {
 
@@ -65,6 +84,12 @@ public class ParagraphFrequency {
             hashTable.add(word, 1);
         }
 
+        System.out.println("Before Removal:");
+        hashTable.print();
+
+        hashTable.remove("avoidable");
+
+        System.out.println("\nAfter Removal:");
         hashTable.print();
     }
 }
