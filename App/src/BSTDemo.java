@@ -67,29 +67,65 @@ class MyHashTable<K, V> {
         }
     }
 }
+class MyBinaryNode<K extends Comparable<K>> {
 
-public class RemoveWord {
+    K key;
+    MyBinaryNode<K> left;
+    MyBinaryNode<K> right;
+
+    public MyBinaryNode(K key) {
+        this.key = key;
+    }
+}
+
+class BinarySearchTree<K extends Comparable<K>> {
+
+    private MyBinaryNode<K> root;
+
+    public void add(K key) {
+        root = addRecursive(root, key);
+    }
+
+    private MyBinaryNode<K> addRecursive(MyBinaryNode<K> current, K key) {
+
+        if (current == null) {
+            return new MyBinaryNode<>(key);
+        }
+
+        if (key.compareTo(current.key) < 0) {
+            current.left = addRecursive(current.left, key);
+        } else if (key.compareTo(current.key) > 0) {
+            current.right = addRecursive(current.right, key);
+        }
+
+        return current;
+    }
+
+    public void inorder() {
+        inorderTraversal(root);
+    }
+
+    private void inorderTraversal(MyBinaryNode<K> node) {
+
+        if (node != null) {
+            inorderTraversal(node.left);
+            System.out.print(node.key + " ");
+            inorderTraversal(node.right);
+        }
+    }
+}
+
+public class BSTDemo {
 
     public static void main(String[] args) {
 
-        String paragraph = "Paranoids are not paranoid because they are paranoid " +
-                "but because they keep putting themselves deliberately into " +
-                "paranoid avoidable situations";
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
 
-        MyHashTable<String, Integer> hashTable = new MyHashTable<>(20);
+        bst.add(56);
+        bst.add(30);
+        bst.add(70);
 
-        String[] words = paragraph.toLowerCase().split(" ");
-
-        for (String word : words) {
-            hashTable.add(word, 1);
-        }
-
-        System.out.println("Before Removal:");
-        hashTable.print();
-
-        hashTable.remove("avoidable");
-
-        System.out.println("\nAfter Removal:");
-        hashTable.print();
+        bst.inorder();
     }
 }
+
